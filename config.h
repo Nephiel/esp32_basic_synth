@@ -15,14 +15,14 @@
 //#define ESP32_AUDIO_KIT
 
 /* this will force using const velocity for all notes, remove this to get dynamic velocity */
-#define MIDI_USE_CONST_VELOCITY
+//#define MIDI_USE_CONST_VELOCITY
 
 /* you can receive MIDI messages via serial-USB connection */
 /*
  * you could use for example https://projectgus.github.io/hairless-midiserial/
  * to connect your MIDI device via computer to the serial port
  */
-#define MIDI_RECV_FROM_SERIAL
+//#define MIDI_RECV_FROM_SERIAL
 
 /* activate MIDI via USB */
 //#define MIDI_VIA_USB_ENABLED
@@ -90,7 +90,9 @@
 #define SAMPLE_SIZE_32BIT
 #endif
 
-#define ADC_TO_MIDI_ENABLED /* this will enable the adc module */
+//#define ADC_TO_MIDI_ENABLED /* this will enable the adc module */
 #define ADC_TO_MIDI_LOOKUP_SIZE 8 /* should match ADC_INPUTS */
+
+#define MIDI_CHANNEL 2 /* 0-15. ignore other MIDI channels. Not implemented nor tested with usbMidiHost */
 
 #endif /* CONFIG_H_ */

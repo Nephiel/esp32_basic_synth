@@ -46,6 +46,8 @@ extern struct midiMapping_s midiMapping; /* definition in z_config.ino */
 
 inline void Midi_NoteOn(uint8_t ch, uint8_t note, uint8_t vel)
 {
+    if (ch != MIDI_CHANNEL) { return ; }
+    
     if (vel > 127)
     {
         /* we will end up here in case of problems with the MIDI connection */
@@ -61,6 +63,8 @@ inline void Midi_NoteOn(uint8_t ch, uint8_t note, uint8_t vel)
 
 inline void Midi_NoteOff(uint8_t ch, uint8_t note)
 {
+    if (ch != MIDI_CHANNEL) { return ; }
+
     if (midiMapping.noteOff != NULL)
     {
         midiMapping.noteOff(ch, note);
@@ -72,6 +76,8 @@ inline void Midi_NoteOff(uint8_t ch, uint8_t note)
  */
 inline void Midi_ControlChange(uint8_t channel, uint8_t data1, uint8_t data2)
 {
+    if (channel != MIDI_CHANNEL) { return ; }
+    
     for (int i = 0; i < midiMapping.mapSize; i++)
     {
         if ((midiMapping.controlMapping[i].channel == channel) && (midiMapping.controlMapping[i].data1 == data1))
@@ -98,6 +104,8 @@ inline void Midi_ControlChange(uint8_t channel, uint8_t data1, uint8_t data2)
 
 inline void Midi_PitchBend(uint8_t ch, uint16_t bend)
 {
+    if (ch != MIDI_CHANNEL) { return ; }
+    
     float value = ((float)bend - 8192.0f) * (1.0f / 8192.0f) - 1.0f;
     if (midiMapping.pitchBend != NULL)
     {
@@ -111,6 +119,8 @@ inline void Midi_PitchBend(uint8_t ch, uint16_t bend)
 inline void Midi_HandleShortMsg(uint8_t *data, uint8_t cable)
 {
     uint8_t ch = data[0] & 0x0F;
+
+    if (ch != MIDI_CHANNEL) { return ; }
 
     switch (data[0] & 0xF0)
     {
@@ -305,4 +315,3 @@ void Midi_SendRaw(uint8_t *msg)
         Serial2.write(msg, 3);
     }
 }
-
