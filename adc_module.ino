@@ -10,6 +10,8 @@
  * Reference: https://youtu.be/l8GrNxElRkc
  */
 
+#ifdef ADC_TO_MIDI_ENABLED
+
 struct adc_to_midi_s
 {
     uint8_t ch;
@@ -173,3 +175,5 @@ float *AdcMul_GetValues(void)
 {
     return adcChannelValue;
 }
+
+#endif /* ADC_TO_MIDI_ENABLED */

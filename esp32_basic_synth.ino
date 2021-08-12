@@ -10,7 +10,7 @@
 /*
  * required include files
  */
-#include <arduino.h>
+//#include <arduino.h>
 #include <WiFi.h>
 
 /* this is used to add a task to core 0 */
@@ -186,4 +186,3 @@ void loop()
 #endif
     }
 }
-

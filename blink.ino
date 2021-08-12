@@ -23,5 +23,6 @@ void Blink_Process(void)
     {
         digitalWrite(LED_PIN, LOW);    // turn the LED off
     }
-    ledOn = !ledOn;
+    // Commented to disable blinking (my board is inside an enclosure)
+    //ledOn = !ledOn;
 }

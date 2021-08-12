@@ -9,6 +9,7 @@
  *      Author: Marcel Licence
  */
 
+#ifdef ADC_TO_MIDI_ENABLED
 /*
  * adc to midi mapping
  */
@@ -23,6 +24,7 @@ struct adc_to_midi_s adcToMidiLookUp[ADC_TO_MIDI_LOOKUP_SIZE] =
     {6, 0x10},
     {7, 0x10},
 };
+#endif /* ADC_TO_MIDI_ENABLED */
 
 /*
  * this mapping is used for the edirol pcr-800
@@ -34,7 +36,7 @@ struct midiControllerMapping edirolMapping[] =
     { 0x8, 0x52, "back", NULL, NULL, 0},
     { 0xD, 0x52, "stop", NULL, NULL, 0},
     { 0xe, 0x52, "start", NULL, NULL, 0},
-    { 0xe, 0x52, "start", NULL, NULL, 0},
+  //{ 0xe, 0x52, "start", NULL, NULL, 0},
     { 0xa, 0x52, "rec", NULL, NULL, 0},
 
     /* upper row of buttons */
@@ -77,7 +79,7 @@ struct midiControllerMapping edirolMapping[] =
     { 0x6, 0x11, "S7", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_SUSTAIN},
     { 0x7, 0x11, "S8", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_RELEASE},
 
-    { 0x1, 0x12, "S9", NULL, Synth_SetParam, 8},
+    { 0x1, 0x12, "S9", NULL, Synth_SetParam, 8}, // equals DETUNE_1 if USE_UNISON, WAVEFORM_1 otherwise
 
     /* rotary */
 #ifdef USE_UNISON
