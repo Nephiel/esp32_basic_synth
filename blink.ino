@@ -14,7 +14,7 @@ void Blink_Setup(void)
 inline
 void Blink_Process(void)
 {
-    static bool ledOn = true;
+    static bool ledOn = false;
     if (ledOn)
     {
         digitalWrite(LED_PIN, HIGH);   // turn the LED on (HIGH is the voltage level)
