@@ -30,16 +30,17 @@ struct adc_to_midi_s adcToMidiLookUp[ADC_TO_MIDI_LOOKUP_SIZE] =
  * this mapping is used for the edirol pcr-800
  * this should be changed when using another controller
  */
+/*
 struct midiControllerMapping edirolMapping[] =
 {
-    /* transport buttons */
+    // transport buttons
     { 0x8, 0x52, "back", NULL, NULL, 0},
     { 0xD, 0x52, "stop", NULL, NULL, 0},
     { 0xe, 0x52, "start", NULL, NULL, 0},
   //{ 0xe, 0x52, "start", NULL, NULL, 0},
     { 0xa, 0x52, "rec", NULL, NULL, 0},
 
-    /* upper row of buttons */
+    // upper row of buttons
     { 0x0, 0x50, "A1", NULL, NULL, 0},
     { 0x1, 0x50, "A2", NULL, NULL, 1},
     { 0x2, 0x50, "A3", NULL, NULL, 2},
@@ -52,7 +53,7 @@ struct midiControllerMapping edirolMapping[] =
 
     { 0x0, 0x53, "A9", NULL, NULL, 0},
 
-    /* lower row of buttons */
+    // lower row of buttons
     { 0x0, 0x51, "B1", NULL, NULL, 0},
     { 0x1, 0x51, "B2", NULL, NULL, 1},
     { 0x2, 0x51, "B3", NULL, NULL, 2},
@@ -65,10 +66,10 @@ struct midiControllerMapping edirolMapping[] =
 
     { 0x1, 0x53, "B9", NULL, NULL, 8},
 
-    /* pedal */
+    // pedal
     { 0x0, 0x0b, "VolumePedal", NULL, NULL, 0},
 
-    /* slider */
+    // slider
     { 0x0, 0x11, "S1", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_ATTACK},
     { 0x1, 0x11, "S2", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_DECAY},
     { 0x2, 0x11, "S3", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_SUSTAIN},
@@ -81,7 +82,7 @@ struct midiControllerMapping edirolMapping[] =
 
     { 0x1, 0x12, "S9", NULL, Synth_SetParam, 8}, // equals DETUNE_1 if USE_UNISON, WAVEFORM_1 otherwise
 
-    /* rotary */
+    // rotary
 #ifdef USE_UNISON
     { 0x0, 0x10, "R1", NULL, Synth_SetParam, SYNTH_PARAM_DETUNE_1},
     { 0x1, 0x10, "R2", NULL, Synth_SetParam, SYNTH_PARAM_UNISON_2},
@@ -99,8 +100,55 @@ struct midiControllerMapping edirolMapping[] =
 
     { 0x0, 0x12, "R9", NULL, Synth_SetParam, SYNTH_PARAM_VOICE_NOISE_LEVEL},
 
-    /* Central slider */
+    // Central slider
     { 0x0, 0x13, "H1", NULL, NULL, 0},
+};
+*/
+
+/*
+ * this mapping is used for the Arturia Beatstep
+ * a custom preset I have on Memory 3 of my specific controller
+ */
+struct midiControllerMapping beatstepMapping[] =
+{
+    // transport buttons send MMC by default
+    //{ MIDI_CHANNEL, 0x??, "stop", NULL, NULL, 0},
+    //{ MIDI_CHANNEL, 0x??, "start", NULL, NULL, 0},
+
+    // Knobs
+
+    // Main knob
+    { MIDI_CHANNEL, 12, "LEVEL/RATE", NULL, Synth_SetParam, SYNTH_PARAM_VOICE_NOISE_LEVEL},
+
+    // Knob Set 1
+#ifdef USE_UNISON
+    { MIDI_CHANNEL, 16,  "1", NULL, Synth_SetParam, SYNTH_PARAM_DETUNE_1},
+    { MIDI_CHANNEL, 17,  "2", NULL, Synth_SetParam, SYNTH_PARAM_UNISON_2},
+#else
+    { MIDI_CHANNEL, 16,  "1", NULL, Synth_SetParam, SYNTH_PARAM_WAVEFORM_1},
+    { MIDI_CHANNEL, 17,  "2", NULL, Synth_SetParam, SYNTH_PARAM_WAVEFORM_2},
+#endif
+    { MIDI_CHANNEL, 18,  "3", NULL, Delay_SetLength, 0},
+    { MIDI_CHANNEL, 19,  "4", NULL, Delay_SetLevel, 0},
+
+    // Knob Set 2
+    { MIDI_CHANNEL, 80,  "5", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_ATTACK},
+    { MIDI_CHANNEL, 81,  "6", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_DECAY},
+    { MIDI_CHANNEL, 82,  "7", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_SUSTAIN},
+    { MIDI_CHANNEL, 83,  "8", NULL, Synth_SetParam, SYNTH_PARAM_VEL_ENV_RELEASE},
+
+    // Knob Set 3
+    { MIDI_CHANNEL, 116,  "9", NULL, Synth_SetParam, SYNTH_PARAM_MAIN_FILT_CUTOFF},
+    { MIDI_CHANNEL, 117, "10", NULL, Synth_SetParam, SYNTH_PARAM_MAIN_FILT_RESO},
+    { MIDI_CHANNEL, 118, "11", NULL, Synth_SetParam, SYNTH_PARAM_VOICE_FILT_RESO},
+    { MIDI_CHANNEL, 119, "12", NULL, Delay_SetFeedback, 0},
+
+    // Knob Set 4
+    { MIDI_CHANNEL, 85, "13", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_ATTACK},
+    { MIDI_CHANNEL, 86, "14", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_DECAY},
+    { MIDI_CHANNEL, 87, "15", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_SUSTAIN},
+    { MIDI_CHANNEL, 88, "16", NULL, Synth_SetParam, SYNTH_PARAM_FIL_ENV_RELEASE},
+
 };
 
 struct midiMapping_s midiMapping =
@@ -110,8 +158,10 @@ struct midiMapping_s midiMapping =
     Synth_NoteOff,
     Synth_PitchBend,
     Synth_ModulationWheel,
-    edirolMapping,
-    sizeof(edirolMapping) / sizeof(edirolMapping[0]),
+    //edirolMapping,
+    beatstepMapping,
+    //sizeof(edirolMapping) / sizeof(edirolMapping[0]),
+    sizeof(beatstepMapping) / sizeof(beatstepMapping[0]),
 };
 
 #ifdef MIDI_VIA_USB_ENABLED
