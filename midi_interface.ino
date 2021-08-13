@@ -46,7 +46,7 @@ extern struct midiMapping_s midiMapping; /* definition in z_config.ino */
 
 inline void Midi_NoteOn(uint8_t ch, uint8_t note, uint8_t vel)
 {
-    if (ch != MIDI_CHANNEL) { return ; }
+    //if (ch != MIDI_CHANNEL) { return ; }
     
     if (vel > 127)
     {
@@ -63,7 +63,7 @@ inline void Midi_NoteOn(uint8_t ch, uint8_t note, uint8_t vel)
 
 inline void Midi_NoteOff(uint8_t ch, uint8_t note)
 {
-    if (ch != MIDI_CHANNEL) { return ; }
+    //if (ch != MIDI_CHANNEL) { return ; }
 
     if (midiMapping.noteOff != NULL)
     {
@@ -74,17 +74,17 @@ inline void Midi_NoteOff(uint8_t ch, uint8_t note)
 /*
  * this function will be called when a control change message has been received
  */
-inline void Midi_ControlChange(uint8_t channel, uint8_t data1, uint8_t data2)
+inline void Midi_ControlChange(uint8_t ch, uint8_t data1, uint8_t data2)
 {
-    if (channel != MIDI_CHANNEL) { return ; }
+    //if (ch != MIDI_CHANNEL) { return ; }
     
     for (int i = 0; i < midiMapping.mapSize; i++)
     {
-        if ((midiMapping.controlMapping[i].channel == channel) && (midiMapping.controlMapping[i].data1 == data1))
+        if ((midiMapping.controlMapping[i].channel == ch) && (midiMapping.controlMapping[i].data1 == data1))
         {
             if (midiMapping.controlMapping[i].callback_mid != NULL)
             {
-                midiMapping.controlMapping[i].callback_mid(channel, data1, data2);
+                midiMapping.controlMapping[i].callback_mid(ch, data1, data2);
             }
             if (midiMapping.controlMapping[i].callback_val != NULL)
             {
@@ -97,14 +97,14 @@ inline void Midi_ControlChange(uint8_t channel, uint8_t data1, uint8_t data2)
     {
         if (midiMapping.modWheel != NULL)
         {
-            midiMapping.modWheel(channel, (float)data2 * NORM127MUL);
+            midiMapping.modWheel(ch, (float)data2 * NORM127MUL);
         }
     }
 }
 
 inline void Midi_PitchBend(uint8_t ch, uint16_t bend)
 {
-    if (ch != MIDI_CHANNEL) { return ; }
+    //if (ch != MIDI_CHANNEL) { return ; }
     
     float value = ((float)bend - 8192.0f) * (1.0f / 8192.0f) - 1.0f;
     if (midiMapping.pitchBend != NULL)
@@ -221,6 +221,7 @@ void Midi_CheckSerial2(void)
     }
 }
 
+#ifdef MIDI_RECV_FROM_SERIAL
 void Midi_CheckSerial(void)
 {
     /*
@@ -281,6 +282,7 @@ void Midi_CheckSerial(void)
         }
     }
 }
+#endif
 
 /*
  * this function should be called continuously to ensure that incoming messages can be processed
@@ -293,6 +295,7 @@ void Midi_Process()
 #endif
 }
 
+#ifdef MIDI_VIA_USB_ENABLED
 void Midi_SendShortMessage(uint8_t *msg)
 {
     Serial2.write(msg, 3);
@@ -315,3 +318,4 @@ void Midi_SendRaw(uint8_t *msg)
         Serial2.write(msg, 3);
     }
 }
+#endif

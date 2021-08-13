@@ -32,12 +32,14 @@
 /* on board led */
 #define LED_PIN     19 // IO19 -> D5
 
+#ifdef ADC_TO_MIDI_ENABLED
 #define ADC_INPUTS  8
 #define ADC_MUL_S0_PIN  23
 #define ADC_MUL_S1_PIN  18
 #define ADC_MUL_S2_PIN  14
 #define ADC_MUL_S3_PIN  5    /* <- not used, this has not been tested */
 #define ADC_MUL_SIG_PIN 12
+#endif
 
 #else /* ESP32_AUDIO_KIT */
 
@@ -59,11 +61,13 @@
 #define I2S_DOUT_PIN    26
 #endif
 
+#ifdef ADC_TO_MIDI_ENABLED
 #define ADC_INPUTS  8
 #define ADC_MUL_S0_PIN  33
 #define ADC_MUL_S1_PIN  32
 #define ADC_MUL_S2_PIN  13
 #define ADC_MUL_SIG_PIN 12
+#endif
 
 #endif /* ESP32_AUDIO_KIT */
 
@@ -91,7 +95,9 @@
 #endif
 
 //#define ADC_TO_MIDI_ENABLED /* this will enable the adc module */
+#ifdef ADC_TO_MIDI_ENABLED
 #define ADC_TO_MIDI_LOOKUP_SIZE 8 /* should match ADC_INPUTS */
+#endif
 
 #define MIDI_CHANNEL 2 /* 0-15. ignore other MIDI channels. Not implemented nor tested with usbMidiHost */
 

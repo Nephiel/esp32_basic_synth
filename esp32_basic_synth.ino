@@ -16,11 +16,13 @@
 /* this is used to add a task to core 0 */
 TaskHandle_t  Core0TaskHnd ;
 
+#ifdef MIDI_VIA_USB_ENABLED
 void App_UsbMidiShortMsgReceived(uint8_t *msg)
 {
     Midi_SendShortMessage(msg);
     Midi_HandleShortMsg(msg, 8);
 }
+#endif
 
 void setup()
 {
@@ -96,7 +98,9 @@ void Core0TaskSetup()
 #endif
 }
 
+#ifdef ADC_TO_MIDI_ENABLED
 static uint8_t adc_prescaler = 0;
+#endif
 
 void Core0TaskLoop()
 {
