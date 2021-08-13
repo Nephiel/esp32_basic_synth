@@ -1,3 +1,6 @@
+# This is a fork of esp32_basic_synth by Marcel Licence.
+Forked for my personal use and experimentation, with an Arturia Beatstep MIDI controller and a custom mapping.
+
 # esp32_basic_synth
 ESP32 based simple synthesizer project
 
