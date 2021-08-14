@@ -204,11 +204,11 @@ void Synth_Init()
      * we do not check if malloc was successful
      * if there is not enough memory left the application will crash
      */
-    sine = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     saw = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
+    tri = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     square = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     pulse = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
-    tri = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
+    sine = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     crappy_noise = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
     silence = (float *)malloc(sizeof(float) * WAVEFORM_CNT);
 
@@ -230,11 +230,11 @@ void Synth_Init()
         silence[i] = 0;
     }
 
-    waveFormLookUp[0] = sine;
-    waveFormLookUp[1] = saw;
+    waveFormLookUp[0] = saw;
+    waveFormLookUp[1] = tri;
     waveFormLookUp[2] = square;
     waveFormLookUp[3] = pulse;
-    waveFormLookUp[4] = tri;
+    waveFormLookUp[4] = sine;
     waveFormLookUp[5] = crappy_noise;
     waveFormLookUp[6] = silence;
 
@@ -242,7 +242,7 @@ void Synth_Init()
     selectedWaveForm =  saw;
     selectedWaveForm2 =  saw;
 #else
-    selectedWaveForm =  pulse;
+    selectedWaveForm =  saw;
     selectedWaveForm2 =  silence;
 #endif
 
@@ -853,4 +853,3 @@ void Synth_SetParam(uint8_t slider, float value)
         break;
     }
 }
-
